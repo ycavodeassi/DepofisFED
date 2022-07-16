@@ -104,6 +104,7 @@ Public Class DepofisFEDForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         'yes
         Process.Start(Me.fePath & "\" & Me.feName)
+        Me.Close()
     End Sub
     ''' <summary>
     ''' .
