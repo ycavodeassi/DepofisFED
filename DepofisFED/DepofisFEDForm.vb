@@ -98,6 +98,10 @@ Public Class DepofisFEDForm
             Style = vbCritical
             Title = "Error DepofisFED"
             Response = MsgBox(Msg, Style, Title)
+            'exit on catch with errors
+            Me.Label1.Text = exToLoadArgs.Message
+            Me.Button2.Text = "Salir"
+            Me.Button2.Visible = True
         End Try
     End Sub
     ''' <summary>
