@@ -66,6 +66,9 @@ Public Class DepofisFEDForm
     ''' <remarks></remarks>
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            'hide buttons
+            Me.Button1.Visible = False
+            Me.Button2.Visible = False
             'args checker
             If args.Length = 1 Then
                 Throw New System.Exception("Error al recibir uno o mas parametros.")
@@ -103,6 +106,7 @@ Public Class DepofisFEDForm
     ''' <remarks></remarks>
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         'yes
+        'Process.Start("explorer.exe", Me.fePath)
         Process.Start(Me.fePath & "\" & Me.feName)
         Me.Close()
     End Sub
@@ -112,6 +116,7 @@ Public Class DepofisFEDForm
     ''' <remarks></remarks>
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         'no
+        'Process.Start("explorer.exe", Me.fePath)
         Me.Close()
     End Sub
     ''' <summary>
@@ -129,6 +134,8 @@ Public Class DepofisFEDForm
     ''' <remarks></remarks>
     Public Sub DownloadFileCompleted(sender As Object, e As EventArgs)
         Me.Label1.Text = "Se descargo un comprobante electrónico. ¿Desea abrirlo?"
+        Me.Button1.Visible = True
+        Me.Button2.Visible = True
     End Sub
 
 End Class
