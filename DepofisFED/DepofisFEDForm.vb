@@ -6,6 +6,7 @@ Public Class DepofisFEDForm
     Private _timeFormat As String = "yyyyMMdd_HHmmss"
     Private _feUri As String
     Private _fePath As String
+    Private _fePathObs As String
     Private _feNum As String
     Private _feName As String
     Private _myDate As String
@@ -26,6 +27,14 @@ Public Class DepofisFEDForm
         End Get
         Set(ByVal valor As String)
             _fePath = valor
+        End Set
+    End Property
+    Public Property fePathObs As String
+        Get
+            Return _fePathObs
+        End Get
+        Set(ByVal valor As String)
+            _fePathObs = valor
         End Set
     End Property
     Public Property feNum As String
@@ -77,6 +86,7 @@ Public Class DepofisFEDForm
             Me.myDate = DateTime.Now.ToString(Me.timeFormat)
             Me.feUri = args(1).Trim
             Me.fePath = args(2).Trim
+            Me.fePathObs = args(4).Trim
             Me.feNum = args(3).Trim
             Me.feName = Me.feNum & "_" & Me.myDate & ".PDF"
             Me.Label1.Text = "Descargando comprobante en linea, por favor espere..."
@@ -87,11 +97,11 @@ Public Class DepofisFEDForm
             ServicePointManager.Expect100Continue = True
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
 
-            'download file
+            'download file local
             AddHandler feDownload.DownloadProgressChanged, AddressOf DownloadProgressChanged
             AddHandler feDownload.DownloadFileCompleted, AddressOf DownloadFileCompleted
 
-            feDownload.DownloadFileAsync(New System.Uri(Me.feUri), Me.fePath & "\" & feName)
+            feDownload.DownloadFileAsync(New System.Uri(Me.feUri), Me.fePath & "\" & Me.feName)
 
         Catch exToLoadArgs As Exception
             Msg = exToLoadArgs.Message
@@ -140,6 +150,12 @@ Public Class DepofisFEDForm
         Me.Label1.Text = "Se descargo un comprobante electrónico. ¿Desea abrirlo?"
         Me.Button1.Visible = True
         Me.Button2.Visible = True
+
+        'copy to obs
+        If (System.IO.Directory.Exists(Me.fePathObs)) Then
+            System.IO.File.Copy(Me.fePath & "\" & Me.feName, Me.fePathObs & "\" & Me.feName)
+        End If
+
     End Sub
 
 End Class
